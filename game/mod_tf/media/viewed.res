@@ -2,7 +2,7 @@
 {
 	"cp_process_final"
 	{
-		"viewed"		"5"
+		"viewed"		"8"
 	}
 	"ctf_thundermountain"
 	{

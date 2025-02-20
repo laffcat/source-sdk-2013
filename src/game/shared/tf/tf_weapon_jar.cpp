@@ -355,6 +355,7 @@ void JarExplode( int iEntIndex, CTFPlayer *pAttacker, CBaseEntity *pOriginalWeap
 				pPlayer->m_Shared.SetPeeAttacker( pAttacker );
 				pPlayer->SpeakConceptIfAllowed( MP_CONCEPT_JARATE_HIT );
 
+
 				if ( pAttacker )
 				{
 					if ( pPlayer->IsPlayerClass( TF_CLASS_SPY ) && pPlayer->m_Shared.GetPercentInvisible() == 1.0f )
