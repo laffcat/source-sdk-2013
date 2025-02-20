@@ -1084,7 +1084,7 @@ void CTFGameMovement::AirDash( void )
 }
 
 // Only allow bunny jumping up to 1.2x server / player maxspeed setting
-#define BUNNYJUMP_MAX_SPEED_FACTOR 1.2f
+#define BUNNYJUMP_MAX_SPEED_FACTOR 6.66f
 
 //-----------------------------------------------------------------------------
 // Purpose: 
@@ -1095,12 +1095,16 @@ void CTFGameMovement::PreventBunnyJumping()
 		return;
 
 	// Speed at which bunny jumping is limited
+
+
 	float maxscaledspeed = BUNNYJUMP_MAX_SPEED_FACTOR * player->m_flMaxspeed;
 	if ( maxscaledspeed <= 0.0f )
 		return;
 
 	// Current player speed
-	float spd = mv->m_vecVelocity.Length();
+
+	Vector2D horizontalSpeed = Vector2D(mv->m_vecVelocity.x, mv->m_vecVelocity.y);
+	float spd = horizontalSpeed.Length();
 	if ( spd <= maxscaledspeed )
 		return;
 
@@ -1223,28 +1227,28 @@ bool CTFGameMovement::CheckJumpButton()
 	ToggleParachute();
 
 	// Cannot jump will ducked.
-	if ( player->GetFlags() & FL_DUCKING )
-	{
-		// Let a scout do it.
-		bool bAllow = ( bScout && !bOnGround );
+	//if ( player->GetFlags() & FL_DUCKING )
+	//{
+	//	// Let a scout do it.
+	//	bool bAllow = ( bScout && !bOnGround );
 
-		if ( !bAllow )
-			return false;
-	}
+	//	if ( !bAllow )
+	//		return false;
+	//}
 
 	// Cannot jump while in the unduck transition.
-	if ( ( player->m_Local.m_bDucking && (  player->GetFlags() & FL_DUCKING ) ) || ( player->m_Local.m_flDuckJumpTime > 0.0f ) )
-		return false;
+	/*if ( ( player->m_Local.m_bDucking && (  player->GetFlags() & FL_DUCKING ) ) || ( player->m_Local.m_flDuckJumpTime > 0.0f ) )
+		return false;*/
 
 	// Cannot jump again until the jump button has been released.
-	if ( mv->m_nOldButtons & IN_JUMP )
-		return false;
+	//if ( mv->m_nOldButtons & IN_JUMP )
+		//return false;
 
 	// In air, so ignore jumps 
 	// (unless you are a scout or ghost or parachute
 	if ( !bOnGround )
 	{
-		if ( m_pTFPlayer->CanAirDash() )
+		if ( m_pTFPlayer->CanAirDash() && !(mv->m_nOldButtons |= IN_JUMP) )
 		{
 			bAirDash = true;
 		}
